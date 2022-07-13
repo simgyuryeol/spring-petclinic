@@ -66,6 +66,7 @@ public interface OwnerRepository extends Repository<Owner, Integer> {
 	@Transactional(readOnly = true)
 	Owner findById(@Param("id") Integer id);
 
+
 	/**
 	 * Save an {@link Owner} to the data store, either inserting or updating it.
 	 * @param owner the {@link Owner} to save
@@ -79,4 +80,8 @@ public interface OwnerRepository extends Repository<Owner, Integer> {
 	@Transactional(readOnly = true)
 	Page<Owner> findAll(Pageable pageable);
 
+
+	@Query("SELECT DISTINCT owner FROM Owner owner left join  owner.pets WHERE owner.firstName LIKE %:firstName% ")
+	@Transactional(readOnly = true)
+	Page<Owner> findByFirstName(@Param("firstName") String firstname, Pageable pageable);
 }
